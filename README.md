@@ -1,10 +1,11 @@
-# Tidal
+# 🌊Tidal
 
 *A Quickshell rice for Hyprland.*
 
-Tidal is a personal desktop shell built with **Quickshell** on **Arch Linux** and **Hyprland**. Designed to be clean, modular, and customizable.
+🌊 Tidal is a personal desktop shell built with **Quickshell** on **Arch Linux** and **Hyprland**. Designed to be clean, modular, and customizable.
+Make Tidal your OWN desktop
 
-> 🌊 Make Tidal your OWN desktop.
+> Tidal is build on Arch Linux, may need to change some code for other distro.
 
 ## ✨ Features
 
@@ -13,7 +14,7 @@ Tidal is a personal desktop shell built with **Quickshell** on **Arch Linux** an
 - **Modular design** — Organized QML components, modules, and configuration.
 - **Wallpaper controls** — Change wallpapers with helper scripts.
 - **Hyprland integration** — Built for a Wayland desktop powered by Hyprland.
-- **Ready to 
+- **More feature coming soon** — updates frequently.
 
 ## 🖥️ Built With
 
