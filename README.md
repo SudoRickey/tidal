@@ -53,7 +53,7 @@ A custom desktop shell built with Quickshell, designed to bring a clean and cohe
 ### Setup
 
 >[!IMPORTANT]
-> Packages that are needed(Download them if you haven't): 
+> Packages that are needed: 
 > Quickshell Swaybg Hyprland pipewire+wireplumber brightnessctl playerctl networkmanager git
 
 1. Back up your existing Quickshell configuration.
