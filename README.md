@@ -1,5 +1,3 @@
-# Tidal
-
 <div align="center">
 
 # 🌊 Tidal
