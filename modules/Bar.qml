@@ -1,12 +1,18 @@
+
 import QtQuick
 import "../modules"
 import "../config" as ThemeConfig
 
 Rectangle {
+    id: bar
+
     width: parent.width
     height: parent.height
 
     radius: 14
+    antialiasing: true
+    clip: true
+
     color: Qt.rgba(
         ThemeConfig.Theme.background.r,
         ThemeConfig.Theme.background.g,
@@ -30,11 +36,5 @@ Rectangle {
 
     Clock {
         anchors.centerIn: parent
-    }
-
-    Volume {
-        anchors.right: parent.right
-        anchors.rightMargin: 10
-        anchors.verticalCenter: parent.verticalCenter
     }
 }

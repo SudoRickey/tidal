@@ -1,6 +1,8 @@
+
 import QtQuick
 import Quickshell
 import Quickshell.Hyprland
+import "../../config" as Config
 
 Row {
     spacing: 6
@@ -8,29 +10,58 @@ Row {
     Repeater {
         model: 5
 
-        Rectangle {
+        delegate: Rectangle {
+            id: workspaceButton
+
+            required property int index
+
             width: 28
             height: 28
             radius: 6
 
-            color: Hyprland.focusedWorkspace?.id === index + 1
-                ? "#89b4fa"
-                : "#313244"
+            readonly property bool isFocused:
+                Hyprland.focusedWorkspace?.id === index + 1
+
+            color: isFocused
+                ? Config.Theme.accent
+                : mouseArea.containsMouse
+                    ? "#3b4252"
+                    : "#242833"
+
+            border.width: 1
+            border.color: isFocused
+                ? Config.Theme.accent
+                : "#454b5b"
+
+            Behavior on color {
+                ColorAnimation { duration: 140 }
+            }
 
             Text {
                 anchors.centerIn: parent
-                text: index + 1
-                color: "white"
+                text: workspaceButton.index + 1
+
+                color: workspaceButton.isFocused
+                    ? "#171923"
+                    : "#e5e9f0"
+
                 font.pixelSize: 14
+                font.weight: workspaceButton.isFocused
+                    ? Font.Bold
+                    : Font.Medium
             }
 
             MouseArea {
+                id: mouseArea
                 anchors.fill: parent
+                hoverEnabled: true
+                cursorShape: Qt.PointingHandCursor
 
                 onClicked: {
                     Hyprland.dispatch(
-                         "hl.dispatch(hl.dsp.focus({ workspace = " + (index + 1) + " }))"
-                    )
+                        "hl.dispatch(hl.dsp.focus({ workspace = " +
+                        (workspaceButton.index + 1) + " }))"
+                )
                 }
             }
         }

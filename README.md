@@ -21,7 +21,7 @@ A custom desktop shell built with Quickshell, designed to bring a clean and cohe
 
 > [!WARNING]
 > Tidal is NOT COMPLETE. May have some bugs when using.
-
+ 
 ---
 
 ## ✨ Features
