@@ -54,8 +54,7 @@ A custom desktop shell built with Quickshell, designed to bring a clean and cohe
 
 >[!IMPORTANT]
 > Packages that are needed: 
->  ```bash
- Quickshell Swaybg Hyprland pipewire+wireplumber  brightnessctl playerctl networkmanager git
+>  ```bash Quickshell Swaybg Hyprland pipewire wireplumber  brightnessctl playerctl networkmanager git
    ```
 
 1. Back up your existing Quickshell configuration.
