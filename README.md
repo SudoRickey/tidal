@@ -8,6 +8,9 @@
 
 A custom desktop shell built with Quickshell, designed to bring a clean and cohesive experience to your Linux desktop.
 
+> [!WARNING]
+> Tidal is NOT COMPLETE. May have some bugs when using.
+
 <br/>
 
 [![Arch Linux](https://img.shields.io/badge/OS-Arch%20Linux-1793D1?style=for-the-badge&logo=archlinux&logoColor=white)](https://archlinux.org/)
@@ -44,10 +47,14 @@ A custom desktop shell built with Quickshell, designed to bring a clean and cohe
 - Arch Linux or a compatible Linux distribution
 - [Hyprland](https://hypr.land/)
 - [Quickshell](https://quickshell.org/)
-
-Additional utilities may be required depending on the modules and scripts you use.
+> [!NOTE]
+> Additional utilities may be required depending on the modules and scripts you use.
 
 ### Setup
+
+>[!IMPORTANT]
+> Packages that are needed(Download them if you haven't): 
+> Quickshell Swaybg Hyprland pipewire+wireplumber brightnessctl playerctl networkmanager git
 
 1. Back up your existing Quickshell configuration.
 2. Clone the repository:
@@ -101,6 +108,6 @@ Tidal is licensed under the [MIT License](LICENSE).
 
 <div align="center">
 
-Made with 🌊 by [SudoRickey](https://github.com/SudoRickey)
+🌊Tidal is made by [SudoRickey](https://github.com/SudoRickey)
 (made solo)
 </div>
