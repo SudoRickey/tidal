@@ -6,9 +6,6 @@
 
 A custom desktop shell built with Quickshell, designed to bring a clean and cohesive experience to your Linux desktop.
 
->[!WARNING]
-> Tidal is NOT COMPLETE. May have some bugs when using.
-
 <br/>
 
 [![Arch Linux](https://img.shields.io/badge/OS-Arch%20Linux-1793D1?style=for-the-badge&logo=archlinux&logoColor=white)](https://archlinux.org/)
@@ -21,6 +18,9 @@ A custom desktop shell built with Quickshell, designed to bring a clean and cohe
 **[Features](#-features) · [Installation](#-installation) · [Customization](#-customization) · [Community](#-community)**
 
 </div>
+
+> [!WARNING]
+> Tidal is NOT COMPLETE. May have some bugs when using.
 
 ---
 
