@@ -1,64 +1,106 @@
-# 🌊Tidal
+# Tidal
 
-*A Quickshell rice for Hyprland.*
+<div align="center">
 
-🌊 Tidal is a personal desktop shell built with **Quickshell** on **Arch Linux** and **Hyprland**. Designed to be clean, modular, and customizable.
-Make Tidal your OWN desktop
+# 🌊 Tidal
 
-> Tidal is build on Arch Linux, may need to change some code for other distro.
+### A fluid desktop experience for Hyprland.
+
+A custom desktop shell built with Quickshell, designed to bring a clean and cohesive experience to your Linux desktop.
+
+<br/>
+
+[![Arch Linux](https://img.shields.io/badge/OS-Arch%20Linux-1793D1?style=for-the-badge&logo=archlinux&logoColor=white)](https://archlinux.org/)
+[![Hyprland](https://img.shields.io/badge/WM-Hyprland-58E1FF?style=for-the-badge)](https://hypr.land/)
+[![Quickshell](https://img.shields.io/badge/Built%20with-Quickshell-8B7BFF?style=for-the-badge)](https://quickshell.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-82C91E?style=for-the-badge)](LICENSE)
+
+<br/>
+
+**[Features](#-features) · [Installation](#-installation) · [Customization](#-customization) · [Community](#-community)**
+
+</div>
+
+---
 
 ## ✨ Features
 
-- **Custom bar** — A minimal desktop bar with workspaces and system information.
-- **Dashboard** — Quick access to system controls and useful widgets.
-- **Modular design** — Organized QML components, modules, and configuration.
-- **Wallpaper controls** — Change wallpapers with helper scripts.
-- **Hyprland integration** — Built for a Wayland desktop powered by Hyprland.
-- **More feature coming soon** — updates frequently.
+- **Custom bar** — A minimal, modular desktop bar.
+- **Interactive dashboard** — Quick access to system controls and useful widgets.
+- **Workspace integration** — Navigate your Hyprland workspaces.
+- **Wallpaper controls** — Change wallpapers using included helper scripts.
+- **System controls** — Convenient access to volume, brightness, and power actions where configured.
+- **Modular architecture** — Organized QML modules, reusable components, and configuration files.
 
-## 🖥️ Built With
+## 📸 Preview
 
-- [Quickshell](https://quickshell.org/)
-- [Hyprland](https://hypr.land/)
-- QML
+> Screenshots coming soon.
 
-## 📁 Structure
-
-```text
-quickshell/
-├── shell.qml
-├── components/
-├── config/
-├── modules/
-├── scripts/
-├── README.md
-└── LICENSE
-```
 
 ## 🚀 Installation
 
-> These instructions are a starting point. Dependencies and setup steps may vary depending on your configuration.
+### Requirements
 
-1. Install [Quickshell](https://quickshell.org/) and [Hyprland](https://hypr.land/).
-2. Back up your existing Quickshell configuration.
-3. Clone Tidal:
+- Arch Linux or a compatible Linux distribution
+- [Hyprland](https://hypr.land/)
+- [Quickshell](https://quickshell.org/)
+
+Additional utilities may be required depending on the modules and scripts you use.
+
+### Setup
+
+1. Back up your existing Quickshell configuration.
+2. Clone the repository:
 
    ```bash
    git clone https://github.com/SudoRickey/tidal.git
    ```
 
-4. Copy the repository's configuration files into `~/.config/quickshell/`.
-5. Launch Quickshell using your usual setup.
+3. Copy the configuration into your Quickshell config directory:
 
-Review the configuration and scripts before running them. Your setup may require additional tools, fonts, or wallpaper utilities.
+   ```bash
+   mkdir -p ~/.config/quickshell
+   cp -r tidal/. ~/.config/quickshell/
+   ```
+
+4. Launch Tidal:
+
+   ```bash
+   qs -c ~/.config/quickshell
+   ```
+
+Review the configuration and scripts before running them. Existing configurations may be overwritten during setup.
 
 ## 🎨 Customization
 
-built in theme are based on the users wallpaper theme.
+Tidal is organized into separate directories to make customization easier.
 
-Explore `config/` to adjust the theme and settings, `modules/` to customize shell modules, and `components/` to modify reusable UI elements.
-customize setting gui coming soon.
+| Directory | Purpose |
+| --- | --- |
+| `modules/` | Desktop modules such as the bar and dashboard |
+| `components/` | Reusable UI components |
+| `config/` | Theme, colors, and settings |
+| `scripts/` | Helper scripts and wallpaper controls |
+| `shell.qml` | Main shell entry point |
+
+Customize the QML files to make Tidal your own.
+
+## 💬 Community
+
+Want to share your setup, suggest features, report bugs, or get help with Tidal?
+
+**Join the Tidal community on Discord!**
+
+[![Discord](https://img.shields.io/badge/Discord-Join%20the%20community-5865F2?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/YOUR_INVITE_CODE)
 
 ## 📄 License
 
-Tidal is released under the [MIT License](LICENSE).
+Tidal is licensed under the [MIT License](LICENSE).
+
+---
+
+<div align="center">
+
+Made with 🌊 by [SudoRickey](https://github.com/SudoRickey)
+(made solo)
+</div>
