@@ -46,7 +46,6 @@ PanelWindow {
         right: true
     }
 
-    // Move the entire layer, including its blur region.
     margins {
         left: 650
         right: 650
@@ -61,6 +60,9 @@ PanelWindow {
         id: background
 
         anchors.fill: parent
+        radius: 16
+        clip: true
+        antialiasing: true
 
         color: Qt.rgba(
             ThemeConfig.Theme.background.r,
@@ -80,8 +82,7 @@ PanelWindow {
         // CONTENT
         Item {
             id: content
-
-            z: 0
+            z: 1
 
             anchors {
                 fill: parent
@@ -120,8 +121,7 @@ PanelWindow {
         // SIDEBAR HOVER DETECTOR
         MouseArea {
             id: sidebarHover
-
-            z: 1
+            z: 2
             hoverEnabled: true
 
             anchors {
@@ -133,11 +133,11 @@ PanelWindow {
             width: 190
         }
 
-        // EXPANDING SIDEBAR
+        // EXPANDING SOLID SIDEBAR
         Rectangle {
             id: sidebar
 
-            z: 2
+            z: 3
 
             anchors {
                 left: parent.left
@@ -147,26 +147,33 @@ PanelWindow {
 
             width: sidebarHover.containsMouse ? 190 : 76
 
-            color: Qt.rgba(
-                ThemeConfig.Theme.surface.r,
-                ThemeConfig.Theme.surface.g,
-                ThemeConfig.Theme.surface.b,
-                0.78
-            )
+            // Fully opaque background: no transparency.
+            color: ThemeConfig.Theme.surface
+            radius: 16
+            antialiasing: true
+            clip: true
 
             border.width: 1
-            border.color: Qt.rgba(
-                ThemeConfig.Theme.accent.r,
-                ThemeConfig.Theme.accent.g,
-                ThemeConfig.Theme.accent.b,
-                0.45
-            )
+            border.color: ThemeConfig.Theme.border
 
             Behavior on width {
                 NumberAnimation {
                     duration: 180
                     easing.type: Easing.OutCubic
                 }
+            }
+
+            // Square off the sidebar's right corners so it
+            // joins the main dashboard without a gap.
+            Rectangle {
+                anchors {
+                    right: parent.right
+                    top: parent.top
+                    bottom: parent.bottom
+                }
+
+                width: 16
+                color: sidebar.color
             }
 
             Column {
@@ -203,15 +210,16 @@ PanelWindow {
                             }
 
                             height: 44
+                            radius: 8
 
                             color: dashboard.currentPage === modelData[2]
-                                   ? Qt.rgba(
-                                         ThemeConfig.Theme.accent.r,
-                                         ThemeConfig.Theme.accent.g,
-                                         ThemeConfig.Theme.accent.b,
-                                         0.20
-                                     )
-                                   : "transparent"
+                                ? Qt.rgba(
+                                    ThemeConfig.Theme.accent.r,
+                                    ThemeConfig.Theme.accent.g,
+                                    ThemeConfig.Theme.accent.b,
+                                    0.20
+                                )
+                                : "transparent"
 
                             border.width:
                                 dashboard.currentPage === modelData[2] ? 1 : 0
@@ -230,6 +238,7 @@ PanelWindow {
 
                             width: 3
                             height: 22
+                            radius: 2
                             color: ThemeConfig.Theme.accent
                         }
 
@@ -245,8 +254,8 @@ PanelWindow {
                             text: modelData[0]
 
                             color: dashboard.currentPage === modelData[2]
-                                   ? ThemeConfig.Theme.text
-                                   : ThemeConfig.Theme.muted
+                                ? ThemeConfig.Theme.text
+                                : ThemeConfig.Theme.muted
 
                             font.pixelSize: 21
                         }
@@ -272,6 +281,7 @@ PanelWindow {
                         MouseArea {
                             anchors.fill: parent
                             z: 10
+                            cursorShape: Qt.PointingHandCursor
 
                             onClicked: {
                                 dashboard.currentPage = modelData[2]
