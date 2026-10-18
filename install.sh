@@ -9,61 +9,133 @@ DATA_HOME="${XDG_DATA_HOME:-$HOME/.local/share}"
 
 QS_DIR="$CONFIG_HOME/quickshell"
 MATUGEN_DIR="$CONFIG_HOME/matugen"
+MATUGEN_CONFIG="$MATUGEN_DIR/config.toml"
+TEMPLATE="$MATUGEN_DIR/templates/colors.json"
+COLOR_OUTPUT="$CACHE_HOME/matugen/colors.json"
 BACKUP_DIR="$DATA_HOME/tidal/backups/$(date +%Y%m%d-%H%M%S)"
 
 echo "Tidal installer"
-echo "Repository: $REPO_DIR"
-echo "Target:     $QS_DIR"
+echo "Target: $QS_DIR"
 echo
 
-for cmd in rsync matugen; do
+for cmd in rsync python3; do
     if ! command -v "$cmd" >/dev/null 2>&1; then
         echo "Missing dependency: $cmd"
-        echo "Install the missing dependency and run this script again."
         exit 1
     fi
 done
 
-if [[ "$REPO_DIR" == "$QS_DIR" ]]; then
-    echo "You're running this installer from the live Quickshell config."
-    echo "Clone the Tidal repository elsewhere before installing it."
+if [[ "$(realpath "$REPO_DIR")" == "$(realpath -m "$QS_DIR")" ]]; then
+    echo "Please clone Tidal into a separate directory before installing."
     exit 1
 fi
 
-if [[ -e "$QS_DIR" ]]; then
-    mkdir -p "$BACKUP_DIR"
+if [[ ! -f "$REPO_DIR/shell.qml" ||
+      ! -f "$REPO_DIR/config/Colors.qml" ||
+      ! -f "$REPO_DIR/matugen/templates/colors.json" ]]; then
+    echo "The repository is missing required Tidal files."
+    exit 1
+fi
+
+mkdir -p "$BACKUP_DIR"
+
+# Back up existing files before changing anything.
+if [[ -d "$QS_DIR" ]]; then
     cp -a "$QS_DIR" "$BACKUP_DIR/quickshell"
-    echo "Existing Quickshell config backed up to:"
-    echo "  $BACKUP_DIR/quickshell"
+fi
+
+if [[ -f "$MATUGEN_CONFIG" ]]; then
+    mkdir -p "$BACKUP_DIR/matugen"
+    cp -a "$MATUGEN_CONFIG" "$BACKUP_DIR/matugen/config.toml"
+fi
+
+if [[ -f "$TEMPLATE" ]]; then
+    mkdir -p "$BACKUP_DIR/matugen/templates"
+    cp -a "$TEMPLATE" "$BACKUP_DIR/matugen/templates/colors.json"
 fi
 
 mkdir -p "$QS_DIR" "$MATUGEN_DIR/templates" "$CACHE_HOME/matugen"
 
-# Copy the repository contents, excluding Git metadata.
-rsync -a --exclude='.git/' "$REPO_DIR/" "$QS_DIR/"
+# Copy shell files while leaving unrelated files untouched.
+rsync -a \
+    --exclude='.git/' \
+    --exclude='README.md' \
+    --exclude='LICENSE' \
+    --exclude='install.sh' \
+    --exclude='matugen/' \
+    "$REPO_DIR/" "$QS_DIR/"
 
-# Create a portable Colors.qml with the current user's cache path.
-sed "s|/home/rickey/.cache/matugen/colors.json|$CACHE_HOME/matugen/colors.json|g" \
-    "$REPO_DIR/config/Colors.qml" > "$QS_DIR/config/Colors.qml"
+# Set the current user's cache path in the installed color loader.
+python3 - "$QS_DIR/config/Colors.qml" "$COLOR_OUTPUT" <<'PY'
+import pathlib
+import sys
 
-# Install Tidal's Matugen template from the repository.
-if [[ -f "$REPO_DIR/matugen/templates/colors.json" ]]; then
-    install -m 0644 \
-        "$REPO_DIR/matugen/templates/colors.json" \
-        "$MATUGEN_DIR/templates/colors.json"
+qml_path = pathlib.Path(sys.argv[1])
+output_path = sys.argv[2]
+
+content = qml_path.read_text()
+content = content.replace(
+    "/home/rickey/.cache/matugen/colors.json",
+    output_path
+)
+qml_path.write_text(content)
+PY
+
+install -m 0644 "$REPO_DIR/matugen/templates/colors.json" "$TEMPLATE"
+
+# Add/update a dedicated Tidal template section without replacing other
+# Matugen settings or templates.
+python3 - "$MATUGEN_CONFIG" "$TEMPLATE" "$COLOR_OUTPUT" <<'PY'
+import pathlib
+import re
+import sys
+
+config_path = pathlib.Path(sys.argv[1])
+template_path = sys.argv[2]
+output_path = sys.argv[3]
+
+if config_path.exists():
+    content = config_path.read_text()
+else:
+    content = ""
+
+# Remove only a previous [templates.tidal] section, if present.
+lines = content.splitlines()
+kept = []
+skip = False
+
+for line in lines:
+    if re.match(r'^\s*\[.*\]\s*(?:#.*)?$', line):
+        skip = line.strip().split("#", 1)[0].strip() == "[templates.tidal]"
+    if not skip:
+        kept.append(line)
+
+content = "\n".join(kept).rstrip()
+
+# Keep any existing config, including [config] and other templates.
+section = (
+    "\n\n[templates.tidal]\n"
+    f'input_path = "{template_path}"\n'
+    f'output_path = "{output_path}"\n'
+)
+
+config_path.parent.mkdir(parents=True, exist_ok=True)
+config_path.write_text(content + section)
+PY
+
+echo
+echo "Tidal files installed."
+echo "Matugen template: $TEMPLATE"
+echo "Generated colors: $COLOR_OUTPUT"
+echo "Backup location: $BACKUP_DIR"
+echo
+
+if command -v matugen >/dev/null 2>&1; then
+    echo "Matugen is installed."
+    echo "Generate colors by running your usual Matugen wallpaper command."
 else
-    echo "ERROR: Missing repository file:"
-    echo "  matugen/templates/colors.json"
-    echo "Create that file before running the installer."
-    exit 1
+    echo "WARNING: Matugen is not installed."
+    echo "Install Matugen to enable dynamic colors."
 fi
 
-echo
-echo "Tidal files copied successfully."
-echo
-echo "Next: configure Matugen to use:"
-echo "  Input:  $MATUGEN_DIR/templates/colors.json"
-echo "  Output: $CACHE_HOME/matugen/colors.json"
-echo
-echo "Your existing Matugen config was not overwritten."
-echo "Restart Quickshell after confirming the Matugen config."
+echo "Restart Quickshell to load Tidal."
