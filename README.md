@@ -158,7 +158,7 @@ Tidal is licensed under the [MIT License](LICENSE).
 
 <div align="center">
 
-🌊 Tidal is made with care by [SudoRickey](https://github.com/SudoRickey).
+🌊 Tidal is made by [SudoRickey](https://github.com/SudoRickey).
 
 *Made solo.*
 

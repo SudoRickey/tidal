@@ -1,4 +1,3 @@
-
 import QtQuick
 import Quickshell
 import Quickshell.Wayland
@@ -11,6 +10,7 @@ PanelWindow {
     id: dashboard
 
     WlrLayershell.namespace: "dashboard"
+    WlrLayershell.keyboardFocus: WlrKeyboardFocus.OnDemand
 
     property bool opened: false
     property string currentPage: "general"
@@ -135,7 +135,7 @@ PanelWindow {
             width: 190
         }
 
-        // SOLID SIDEBAR — INSET TO KEEP THE OUTER BORDER VISIBLE
+        // SIDEBAR
         Rectangle {
             id: sidebar
 
@@ -157,7 +157,6 @@ PanelWindow {
             antialiasing: true
             clip: true
 
-            // The outer dashboard owns the border.
             border.width: 0
 
             Behavior on width {
