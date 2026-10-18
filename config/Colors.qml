@@ -1,13 +1,43 @@
-
 pragma Singleton
-import QtQuick
 
-QtObject {
-    readonly property color background: "#0f1416"
-    readonly property color surface: "#1b2023"
-    readonly property color text: "#dee3e6"
-    readonly property color accent: "#87d1eb"
-    readonly property color accentText: "#003543"
-    readonly property color border: "#8a9296"
-    readonly property color muted: "#bfc8cc"
+import QtQuick
+import Quickshell.Io
+
+Item {
+    id: root
+
+    property var colors: ({
+        background: "#0f1416",
+        surface: "#1b2023",
+        text: "#dee3e6",
+        accent: "#87d1eb",
+        accentText: "#003543",
+        border: "#8a9296",
+        muted: "#bfc8cc"
+    })
+
+    FileView {
+        id: colorFile
+
+        path: "/home/rickey/.cache/matugen/colors.json"
+        watchChanges: true
+
+        onFileChanged: reload()
+
+        onLoaded: {
+            try {
+                root.colors = JSON.parse(text())
+            } catch (e) {
+                console.warn("Failed to load Matugen colors:", e)
+            }
+        }
+}
+
+    readonly property color background: colors.background
+    readonly property color surface: colors.surface
+    readonly property color text: colors.text
+    readonly property color accent: colors.accent
+    readonly property color accentText: colors.accentText
+    readonly property color border: colors.border
+    readonly property color muted: colors.muted
 }

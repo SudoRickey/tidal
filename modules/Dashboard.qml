@@ -2,6 +2,7 @@
 import QtQuick
 import Quickshell
 import Quickshell.Wayland
+import QtQuick.Controls
 import Quickshell.Io
 import "../config" as ThemeConfig
 import "./dashboard"
@@ -56,6 +57,7 @@ PanelWindow {
     exclusiveZone: 0
     color: "transparent"
 
+    // MAIN ROUNDED DASHBOARD
     Rectangle {
         id: background
 
@@ -133,7 +135,7 @@ PanelWindow {
             width: 190
         }
 
-        // EXPANDING SOLID SIDEBAR
+        // SOLID SIDEBAR — INSET TO KEEP THE OUTER BORDER VISIBLE
         Rectangle {
             id: sidebar
 
@@ -143,37 +145,26 @@ PanelWindow {
                 left: parent.left
                 top: parent.top
                 bottom: parent.bottom
+                leftMargin: 1
+                topMargin: 1
+                bottomMargin: 1
             }
 
-            width: sidebarHover.containsMouse ? 190 : 76
+            width: (sidebarHover.containsMouse ? 190 : 76) - 1
 
-            // Fully opaque background: no transparency.
             color: ThemeConfig.Theme.surface
-            radius: 16
+            radius: 15
             antialiasing: true
             clip: true
 
-            border.width: 1
-            border.color: ThemeConfig.Theme.border
+            // The outer dashboard owns the border.
+            border.width: 0
 
             Behavior on width {
                 NumberAnimation {
                     duration: 180
                     easing.type: Easing.OutCubic
                 }
-            }
-
-            // Square off the sidebar's right corners so it
-            // joins the main dashboard without a gap.
-            Rectangle {
-                anchors {
-                    right: parent.right
-                    top: parent.top
-                    bottom: parent.bottom
-                }
-
-                width: 16
-                color: sidebar.color
             }
 
             Column {

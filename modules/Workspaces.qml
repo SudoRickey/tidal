@@ -1,8 +1,7 @@
-
+import "../config" as Config
 import QtQuick
 import Quickshell
 import Quickshell.Hyprland
-import "../../config" as Config
 
 Row {
     spacing: 6
