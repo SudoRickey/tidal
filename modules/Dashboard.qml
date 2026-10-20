@@ -121,6 +121,7 @@ PanelWindow {
         }
 
         // SIDEBAR HOVER DETECTOR
+        // SIDEBAR HOVER DETECTOR
         MouseArea {
             id: sidebarHover
             z: 2
@@ -132,7 +133,8 @@ PanelWindow {
                 bottom: parent.bottom
             }
 
-            width: 190
+            // Only trigger expansion over the collapsed sidebar.
+            width: 75
         }
 
         // SIDEBAR
